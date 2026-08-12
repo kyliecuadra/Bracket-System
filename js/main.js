@@ -50,7 +50,7 @@ function renderTeam() {
         <p class="team-bio">${t.bio}</p>
         <div class="team-links">
           <a class="team-email" href="mailto:${t.email}">${t.email}</a>
-          <a class="team-resume" href="${SITE_DATA.resumeUrl}" target="_blank" rel="noopener">View résumé →</a>
+          <a class="team-resume" href="${t.resumeUrl || SITE_DATA.resumeUrl}" target="_blank" rel="noopener">View résumé →</a>
         </div>
       </div>
     `

@@ -73,6 +73,14 @@ const SITE_DATA = {
       role: 'Full-Stack Developer — Java · AI · Cloud',
       bio: 'Full-stack developer working across web, AI, and cloud — focused on shipping systems that hold up under real-world use.',
       email: 'macalinoprinceallyson@gmail.com'
+    },
+    {
+      initials: 'JO',
+      name: 'Jansen Oribello',
+      role: 'Java Developer — Sapiens IDIT · APIs · Enterprise Systems',
+      bio: 'Java developer specializing in the Sapiens IDIT platform, Spring Boot microservices, and RESTful API integration for core insurance and banking systems.',
+      email: 'oribellojansen.fuentes@gmail.com',
+      resumeUrl: 'assets/resume-jansen.pdf'
     }
   ]
 };

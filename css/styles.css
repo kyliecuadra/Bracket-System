@@ -423,7 +423,7 @@ h2.section-title {
 
 .team-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1px;
   background: var(--line-dark);
   border: 1px solid var(--line-dark);
@@ -554,7 +554,9 @@ h2.section-title {
 
 footer {
   border-top: 1px solid var(--line);
+  display: flex;
   padding: 28px 0;
+  justify-content: center;
 }
 
 footer .wrap {
