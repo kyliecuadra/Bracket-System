@@ -1,34 +1,99 @@
-# Bracket Systems website
+<div align="center">
 
-The company website of Bracket Systems (Kylie Cuadra, Prince Macalino and Jansen Oribello): who we are, our services and
-work, and our flagship product, **HR & Payroll**, shown with real screenshots of the running application and a
-fictional demo company.
+# Bracket Systems
 
-This is a standalone project. It doesn't need the HR & Payroll repository to install, build or run. That repository is
-only used, optionally, to re-capture product screenshots.
+**We build systems that see, sort, and scale.**
+
+The company website of Bracket Systems and the showcase for our flagship product, **HR & Payroll**.
+
+[**Live site**](https://bracketsystems.vercel.app) ·
+[Product](https://bracketsystems.vercel.app/products/hr-payroll) ·
+[Product tour](https://bracketsystems.vercel.app/demo) ·
+[Contact](https://bracketsystems.vercel.app/contact)
+
+![Astro](https://img.shields.io/badge/Astro-7-BC52EE?logo=astro&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
+![Playwright](https://img.shields.io/badge/tested_with-Playwright-2EAD33?logo=playwright&logoColor=white)
+![Vercel](https://img.shields.io/badge/hosted_on-Vercel-000000?logo=vercel&logoColor=white)
+![Node](https://img.shields.io/badge/node-%E2%89%A522.12-339933?logo=nodedotjs&logoColor=white)
+
+<img src="public/og/default.png" alt="Bracket Systems website preview" width="800">
+
+</div>
+
+---
+
+## About
+
+Bracket Systems is **Kylie Cuadra, Prince Macalino and Jansen Oribello**. We build web platforms, computer-vision tools
+and enterprise systems, and we make **HR & Payroll**: employee records, Philippine payroll, attendance, leave and
+self-service in one platform.
+
+This site covers who we are, our services and work, and the product itself. Product pages use real screenshots of the
+running application, taken with a fictional demo company.
+
+This project stands on its own. You don't need the HR & Payroll repository to install, build or run it. That
+repository is only used, optionally, to re-capture product screenshots.
+
+## Contents
+
+- [Features](#features)
+- [Quick start](#quick-start)
+- [Tech stack](#tech-stack)
+- [Project structure](#project-structure)
+- [Editing content](#editing-content)
+- [Product screenshots](#product-screenshots)
+- [Environment variables](#environment-variables)
+- [Deployment](#deployment)
+- [Security](#security)
+- [SEO, accessibility and performance](#seo-accessibility-and-performance)
+- [Tests](#tests)
+- [Team](#team)
+
+## Features
+
+- **Pages:** home, product, interactive product tour, services, solutions, work (one page per project), pricing,
+  about and team, security, resources (FAQ, guides, release notes), contact, and the legal pages.
+- **Mostly static:** Astro renders plain HTML. React loads only for the two parts that need it, the product tour and
+  the contact form.
+- **Content in one place:** every word on the site lives in `src/data/`. The pages only lay it out.
+- **Real product screenshots** in AVIF and WebP at several widths.
+- **Contact form** that sends through Resend. If Resend isn't set up, it falls back to email.
+- **Security first:** a strict Content Security Policy, security headers and a rate-limited contact API.
+- **Accessibility** targeting WCAG 2.2 AA, with axe checks on every page.
 
 ## Quick start
 
 ```bash
+git clone <this-repo-url>
+cd bracket-system-website
 npm install
 npm run dev          # http://localhost:4321
-npm run build        # production build (dist/ and .vercel/output/)
-npm test             # Playwright: every page, accessibility, CSP, links, forms, API (build first)
-npm run check        # TypeScript / Astro diagnostics
 ```
 
-Requires Node.js 22.12 or later.
+| Command | What it does |
+|---|---|
+| `npm run dev` | Starts the dev server at `http://localhost:4321` |
+| `npm run build` | Builds for production into `dist/` and `.vercel/output/` |
+| `npm run preview` | Serves the production build locally |
+| `npm test` | Runs the Playwright tests: pages, accessibility, CSP, links, forms and API. Build first |
+| `npm run check` | Runs TypeScript and Astro diagnostics |
 
-## Technology
+Requires **Node.js 22.12 or later**.
+
+## Tech stack
 
 | Area | Choice |
 |---|---|
 | Framework | [Astro 7](https://astro.build): static pages, with React 19 islands only where there is interaction (product tour, contact form) |
-| Styling | Tailwind CSS 4, design tokens in `src/styles/global.css` |
+| Styling | [Tailwind CSS 4](https://tailwindcss.com), with design tokens in `src/styles/global.css` |
 | Fonts | Geist and JetBrains Mono, self-hosted through Fontsource (no Google Fonts requests) |
-| Hosting | Vercel (`@astrojs/vercel`): static files plus one function, `/api/contact` |
-| Analytics | Vercel Web Analytics: cookieless, opt-in by environment variable, visitor opt-out on `/legal/cookies` |
-| Tests | Playwright + axe-core |
+| Hosting | [Vercel](https://vercel.com) (`@astrojs/vercel`): static files plus one function, `/api/contact` |
+| Analytics | Vercel Web Analytics. It is cookieless, you turn it on with an environment variable, and visitors can opt out on `/legal/cookies` |
+| Email | [Resend](https://resend.com), used by the contact form |
+| Tests | [Playwright](https://playwright.dev) + [axe-core](https://github.com/dequelabs/axe-core) |
 
 ## Project structure
 
@@ -55,32 +120,37 @@ scripts/
 tests/                site.spec.ts (built site), api.spec.ts (contact API)
 ```
 
-## Content
+## Editing content
 
-Every word on the site comes from `src/data/`. Pages only lay it out.
+All content is in `src/data/`. To change what the site says, edit these files, not the pages.
 
-- **Company, navigation, emails:** `site.ts`. `legalEntity` is `null` until Bracket Systems is registered; the legal
-  pages then need updating too (`legal.ts`, `src/pages/legal/`).
-- **Team:** `team.ts` (roles, bios and skills as published by each person).
-- **Work:** `work.ts`. Each project gets a page at `/work/<slug>` automatically.
-- **Services, solutions, FAQ, guides, release notes:** `services.ts`, `resources.ts`.
-- **Security claims:** `security.ts`. Keep it in step with the product's own security documentation.
+| What | Where |
+|---|---|
+| Company, navigation, emails | `site.ts`. `legalEntity` stays `null` until Bracket Systems is registered. After that, update the legal pages too (`legal.ts`, `src/pages/legal/`) |
+| Team | `team.ts`: roles, bios and skills, as each person published them |
+| Work | `work.ts`. Each project gets its own page at `/work/<slug>` |
+| Services, solutions, FAQ, guides, release notes | `services.ts`, `resources.ts` |
+| Security claims | `security.ts`. Keep it in line with the product's own security documentation |
 
-**Accuracy rule.** Only publish what is verified: in the product's code or docs, the team's own published material, or
-confirmed by the team. No invented clients, numbers, testimonials or certifications. Features that aren't finished use
-the `status` field (`available`, `api`, `planned`), and a badge makes that visible.
+> [!IMPORTANT]
+> **Accuracy rule.** Only publish what is verified: in the product's code or docs, in the team's own published
+> material, or confirmed by the team. No invented clients, numbers, testimonials or certifications. For features that
+> aren't finished, set the `status` field (`available`, `api` or `planned`), and the site shows a badge for it.
 
 ### Adding a product
 
 1. Add `src/data/products/<slug>.ts` exporting a `Product` (see `src/data/types.ts`), and register it in
    `src/data/products/index.ts`. `/products` lists it automatically.
-2. Copy `src/pages/products/hr-payroll.astro` to `<slug>.astro` and point it at the new data (the sections are shared).
-3. Add its screenshots (below) and, if you like, a tour (`tour` steps) and a social card.
+2. Copy `src/pages/products/hr-payroll.astro` to `<slug>.astro` and point it at the new data. The sections are shared.
+3. Add its screenshots (see below). Optionally, add a tour (`tour` steps) and a social card.
 
 ## Product screenshots
 
 The screenshots are real. They are captured from a **local** HR & Payroll installation, signed in as the fictional
-accounts of its development seed ("Pioneer Test Co."). Never point the capture at a real installation.
+accounts from its development seed ("Pioneer Test Co.").
+
+> [!WARNING]
+> Never point the capture script at a real installation.
 
 ```bash
 # With HR & Payroll running locally (web app on :5173, gateway on :8080) and its full demo seed loaded:
@@ -92,77 +162,110 @@ npm run brand:assets                   # refresh social cards (they use two of t
 The capture script:
 
 - Sets the product's display name ("HR & Payroll") and brand colour (the site's teal) through the product's own
-  settings API, then clears them again.
-- Replaces any file name that isn't demo data before a shot is taken.
+  settings API, then clears them again afterwards.
+- Replaces any file name that isn't demo data before it takes a shot.
 
-Review every image before committing. Raw PNGs stay in `scripts/.raw/`, which is git-ignored.
+Check every image before you commit it. Raw PNGs stay in `scripts/.raw/`, which git ignores.
 
 ## Environment variables
 
-See `.env.example`. Nothing is required for development.
+See `.env.example`. You don't need any of these for development.
 
 | Variable | Purpose |
 |---|---|
 | `PUBLIC_SITE_URL` | Production origin, used for canonical URLs, the sitemap and social cards (default `https://bracketsystems.vercel.app`) |
-| `PUBLIC_ANALYTICS` | `vercel` turns on Vercel Web Analytics. Also enable Web Analytics in the Vercel project |
+| `PUBLIC_ANALYTICS` | Set to `vercel` to turn on Vercel Web Analytics. Also enable Web Analytics in the Vercel project |
 | `RESEND_API_KEY`, `CONTACT_FROM` | Contact form delivery through [Resend](https://resend.com). `CONTACT_FROM` must be on a domain verified with Resend |
 | `CONTACT_TO` | Comma-separated recipients (default: the three team addresses) |
 
-Without Resend settings, the form tells the visitor it can't send and offers the same message as an email instead.
-Nothing is lost.
+Without the Resend settings, the form tells the visitor it can't send, and offers to open the same message as an email
+instead. Nothing is lost.
 
-## Deployment (Vercel)
+## Deployment
 
-1. Import the repository in Vercel. The framework preset is detected (Astro) and the build command is `npm run build`.
+The site is deployed on **Vercel**.
+
+1. Import the repository in Vercel. It detects the Astro preset, and the build command is `npm run build`.
 2. Set the environment variables above for Production.
-3. Enable **Web Analytics** in the project if `PUBLIC_ANALYTICS=vercel`.
-4. Add the custom domain, then set `PUBLIC_SITE_URL` to it and redeploy.
+3. If `PUBLIC_ANALYTICS=vercel`, enable **Web Analytics** in the project.
+4. Add the custom domain, set `PUBLIC_SITE_URL` to it, and redeploy.
 
 `vercel.json` adds the security headers: HSTS, `frame-ancestors 'none'`, nosniff, referrer policy, permissions policy
 and COOP.
 
 ## Security
 
-- **Content Security Policy:** Astro's CSP puts a `<meta>` policy with SHA-256 hashes of its own inline scripts and
-  styles on every page. Scripts, styles, fonts, images and connections are limited to this origin. There are no inline
-  style attributes and no third-party scripts; the analytics script is served from the same origin by Vercel.
+- **Content Security Policy:** Astro adds a `<meta>` policy to every page, with SHA-256 hashes of its own inline
+  scripts and styles. Scripts, styles, fonts, images and connections are limited to this origin. There are no inline
+  style attributes and no third-party scripts. Vercel serves the analytics script from the same origin.
 - **Contact API:**
-  - JSON only, with an 8 KB body cap, and Astro's origin check against cross-site posts.
-  - Validation, control-character stripping, a honeypot field, and 5 messages per 10 minutes per address. That limit is
-    per instance, so add a Vercel WAF rule for stronger protection.
-  - HTML-escaped email content. Messages are not stored.
-- **Secrets:** none are in the repository; `.env*` is git-ignored except `.env.example`.
+  - Accepts JSON only, caps the body at 8 KB, and uses Astro's origin check to block cross-site posts.
+  - Validates input, strips control characters, uses a honeypot field, and allows 5 messages per 10 minutes per
+    address. That limit applies per instance, so add a Vercel WAF rule for stronger protection.
+  - HTML-escapes email content. Messages are not stored.
+- **Secrets:** none are in the repository. Git ignores `.env*`, except `.env.example`.
 - **Dependencies:** `npm audit` is clean. `path-to-regexp` is pinned to a patched 6.x through `overrides`, because the
   Vercel adapter's routing tool still asks for a vulnerable range.
 
-## SEO and accessibility
+Found a security issue? Please email the team (addresses in `src/data/site.ts`) instead of opening a public issue.
 
-- **SEO:**
-  - Each page has a unique title, a description, a canonical URL, Open Graph and Twitter cards.
-  - JSON-LD: Organization and WebSite on every page, SoftwareApplication on the product page, FAQPage on resources,
-    CreativeWork on projects.
-  - `sitemap-index.xml` and `robots.txt` are generated.
-- **Accessibility (targeting WCAG 2.2 AA):**
-  - Semantic landmarks, a skip link, one `h1` per page, visible focus rings, labelled form fields with errors linked
-    through `aria-describedby`, and WAI-ARIA tabs with arrow-key support.
-  - Reduced motion turns off the scroll reveal and the animations.
-  - The tests run axe on every page.
-- **Performance:**
-  - Static HTML, with JavaScript only for the two islands.
-  - AVIF/WebP screenshots in responsive `srcset`s, with explicit sizes so nothing shifts.
-  - Lazy loading below the fold, self-hosted fonts, long cache on screenshots.
+## SEO, accessibility and performance
+
+**SEO**
+
+- Each page has a unique title, a description, a canonical URL, and Open Graph and Twitter cards.
+- JSON-LD: Organization and WebSite on every page, SoftwareApplication on the product page, FAQPage on resources, and
+  CreativeWork on projects.
+- `sitemap-index.xml` and `robots.txt` are generated.
+
+**Accessibility (targeting WCAG 2.2 AA)**
+
+- Semantic landmarks, a skip link, one `h1` per page, visible focus rings, labelled form fields with errors linked
+  through `aria-describedby`, and WAI-ARIA tabs with arrow-key support.
+- With reduced motion, the scroll reveal and animations are turned off.
+- The tests run axe on every page.
+
+**Performance**
+
+- Static HTML, with JavaScript only for the two islands.
+- AVIF/WebP screenshots in responsive `srcset`s, with explicit sizes so the layout doesn't shift.
+- Lazy loading below the fold, self-hosted fonts, and long cache times on screenshots.
 
 ## Tests
 
-`npm test` builds nothing itself. Run `npm run build` first. It checks:
+`npm test` doesn't build the site, so run `npm run build` first.
+
+```bash
+npm run build
+npm test
+```
+
+The tests check:
 
 - **Every page:**
-  - Loads with status 200, one `h1`, a title, description, canonical and CSP meta tag.
-  - No console errors (so no CSP violations) and no broken images.
-  - No serious or critical axe violations.
-- **Layout and links:** no horizontal overflow at 1440, 1280, 1024, 768, 390 and 375 px; every internal link resolves.
+  - Returns status 200 and has one `h1`, a title, a description, a canonical URL and a CSP meta tag.
+  - Has no console errors (so no CSP violations) and no broken images.
+  - Has no serious or critical axe violations.
+- **Layout and links:** no horizontal overflow at 1440, 1280, 1024, 768, 390 and 375 px, and every internal link
+  resolves.
 - **Behaviour:**
-  - Security headers, robots.txt, the sitemap and the 404 page.
-  - Product tour keyboard use, the mobile menu, and the contact form (validation, success, email fallback).
+  - Security headers, `robots.txt`, the sitemap and the 404 page.
+  - Keyboard use in the product tour, the mobile menu, and the contact form (validation, success, email fallback).
   - The analytics opt-out.
 - **Contact API:** content type, validation, size limit, honeypot, unconfigured delivery, rate limit and methods.
+
+## Team
+
+Bracket Systems has been freelancing since 2019.
+
+- **Christ Kylie Cuadra**
+- **Prince Allyson Macalino**
+- **Jansen Oribello**
+
+Roles, bios and résumés are on the [About page](https://bracketsystems.vercel.app/about).
+
+---
+
+<div align="center">
+<sub>© Bracket Systems · <a href="https://bracketsystems.vercel.app">bracketsystems.vercel.app</a></sub>
+</div>
