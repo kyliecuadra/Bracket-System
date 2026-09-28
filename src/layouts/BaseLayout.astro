@@ -1,0 +1,87 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Social card image path; defaults to the site card. */
+  image?: string;
+  noindex?: boolean;
+  /** Structured data (schema.org) objects for this page. */
+  jsonLd?: Record<string, unknown>[];
+  type?: 'website' | 'article';
+}
+const { title, description, image = '/og/default.png', noindex = false, jsonLd = [], type = 'website' } = Astro.props;
+const origin = Astro.site ?? new URL(site.url);
+const canonical = new URL(Astro.url.pathname, origin).href;
+const fullTitle = title === site.name ? `${site.name} — Web, AI, Cloud & Enterprise Software` : `${title} · ${site.name}`;
+const ogImage = new URL(image, origin).href;
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: origin.href,
+  logo: new URL('/icon-512.png', origin).href,
+  email: site.emails[0],
+  founder: [{ '@type': 'Person', name: 'Kylie Cuadra' }, { '@type': 'Person', name: 'Prince Macalino' }, { '@type': 'Person', name: 'Jansen Oribello' }],
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0b1220" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {[org, ...jsonLd].map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a href="#main" class="sr-only z-50 rounded-md bg-ink px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Skip to content</a>
+    <Header />
+    <main id="main" class="flex-1" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import { startAnalytics } from '../lib/analytics';
+
+      // Scroll reveal: content is visible without JavaScript; with it, sections rise in once as they enter the view.
+      const items = document.querySelectorAll('[data-reveal]');
+      if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // Anything already on screen stays put (no flash); only what's below the fold waits to rise in.
+        items.forEach((el) => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('is-visible'); });
+        document.documentElement.classList.add('reveal-ready');
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        }, { rootMargin: '0px 0px -8% 0px' });
+        items.forEach((el) => io.observe(el));
+      }
+      startAnalytics();
+    </script>
+  </body>
+</html>

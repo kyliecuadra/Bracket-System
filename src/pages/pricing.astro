@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../sections/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import CTA from '../sections/CTA.astro';
+import { hrPayroll as p } from '../data/products/hr-payroll';
+
+const factors = [
+  { icon: 'layers', title: 'Edition', body: 'Which modules you need — from core HR to payroll and enterprise features.' },
+  { icon: 'people', title: 'Size', body: 'How many employees, branches and user accounts the license covers.' },
+  { icon: 'server', title: 'Setup & support', body: 'Installation on your servers, and the help you want getting started and afterwards.' },
+] as const;
+---
+<BaseLayout title="HR & Payroll editions & pricing" description="HR & Payroll comes in four editions — Basic, Standard, Professional and Enterprise. Pricing depends on edition and company size; request a quote.">
+  <PageHero tag="[ PRICING ]" title="Four editions. A quote that fits." lead="HR & Payroll is licensed by edition and by the number of employees, branches and users. We quote each company individually." />
+
+  <section class="py-20 sm:py-24">
+    <div class="container-page">
+      <ul class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        {p.editions.map((e) => (
+          <li data-reveal class:list={['relative flex flex-col rounded-3xl p-6 ring-1', e.featured ? 'on-dark bg-ink text-white ring-ink' : 'bg-panel ring-line']}>
+            {e.featured && <span class="absolute -top-3 left-6 rounded-full bg-signal px-3 py-1 font-mono text-[0.68rem] font-semibold tracking-wider text-ink uppercase">Includes payroll</span>}
+            <h2 class="text-xl font-semibold">{e.name}</h2>
+            <p class:list={['mt-1 text-sm', e.featured ? 'text-night-text' : 'text-muted']}>{e.blurb}</p>
+            <p class="mt-6 text-2xl font-semibold">Request a quote</p>
+            <p class:list={['text-sm', e.featured ? 'text-night-text' : 'text-muted']}>Priced by company size</p>
+            <ul class="mt-6 flex-1 space-y-2.5">
+              {e.includes.map((i) => <li class="flex gap-2.5 text-[0.95rem]"><Icon name="check" size={18} class:list={['mt-0.5 shrink-0', e.featured ? 'text-signal' : 'text-accent']} />{i}</li>)}
+            </ul>
+            <div class="mt-8">
+              <Button href="/demo#request" variant={e.featured ? 'bright' : 'secondary'} class="w-full">Talk to the team</Button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 text-sm text-muted">{p.editionNote} Every edition runs on your own infrastructure. <a href="/products/hr-payroll#deployment" class="text-accent underline">Deployment options</a></p>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-panel py-20 sm:py-24">
+    <div class="container-page">
+      <SectionHeader tag="[ WHAT SHAPES A QUOTE ]" title="Three things decide the price." />
+      <ul class="mt-10 grid gap-5 md:grid-cols-3">
+        {factors.map((f) => (
+          <li data-reveal class="rounded-2xl bg-paper p-6 ring-1 ring-line">
+            <Icon name={f.icon} size={22} class="text-accent" />
+            <h3 class="mt-4 font-semibold">{f.title}</h3>
+            <p class="mt-2 text-muted">{f.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="container-page grid gap-10 lg:grid-cols-2">
+      <SectionHeader tag="[ CUSTOM SOFTWARE ]" title="Building something else?" lead="Custom projects — web platforms, Java backends, computer vision, enterprise systems — are scoped and quoted per project after a first conversation." />
+      <div class="flex items-end lg:justify-end"><Button href="/contact" size="lg" icon="arrow">Request a quote</Button></div>
+    </div>
+  </section>
+  <CTA />
+</BaseLayout>

@@ -1,0 +1,72 @@
+---
+import Button from '../components/Button.astro';
+import Screenshot from '../components/Screenshot.astro';
+import { site } from '../data/site';
+
+/*
+ * The first site's hero line and its "detecting capabilities" panel, evolved: the detection boxes now frame real
+ * parts of the HR & Payroll dashboard (positions are fractions of the dashboard screenshot). Labels only — no scores.
+ */
+const boxes = [{ label: 'PEOPLE' }, { label: 'PAYROLL' }, { label: 'ACTIONS' }]; // positioned by .det-N below
+const detected = ['WEB DEV', 'AI / ML', 'ENTERPRISE', 'CLOUD'];
+---
+<section class="on-dark relative overflow-hidden bg-night text-white">
+  <div class="grid-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[60rem] -translate-x-1/2 rounded-full bg-accent/25 blur-[120px]" aria-hidden="true"></div>
+
+  <div class="container-page relative pt-16 pb-10 sm:pt-24 lg:pt-28">
+    <div class="max-w-3xl animate-rise">
+      <p class="tag">Bracket Systems · {site.capabilities.join(' · ')}</p>
+      <h1 class="mt-5 text-[2.6rem] leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
+        We build systems that <em class="font-serif text-signal italic">see</em>, sort, and scale.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-night-text sm:text-xl">
+        Bracket Systems is Kylie, Prince and Jansen — full-stack and Java developers building web platforms,
+        computer-vision tools and enterprise systems for businesses and institutions that need software that actually
+        works. Our flagship product, <a href="/products/hr-payroll" class="text-white underline decoration-signal/60 hover:decoration-signal">HR &amp; Payroll</a>, runs people, pay and time in one platform.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <Button href="/products/hr-payroll" variant="bright" size="lg" icon="arrow">Explore the platform</Button>
+        <Button href="/work" variant="outline-dark" size="lg">Explore our work</Button>
+        <Button href="/contact" variant="outline-dark" size="lg">Build with us</Button>
+      </div>
+    </div>
+
+    <div class="relative mt-16 animate-rise [animation-delay:150ms] lg:mt-20">
+      <figure class="relative overflow-hidden rounded-xl bg-panel shadow-2xl ring-1 ring-white/15">
+        <div class="flex h-9 items-center gap-2 border-b border-line bg-tray px-4" aria-hidden="true">
+          <span class="size-2.5 rounded-full bg-line-strong"></span><span class="size-2.5 rounded-full bg-line-strong"></span><span class="size-2.5 rounded-full bg-line-strong"></span>
+          <span class="ml-3 hidden rounded-md bg-panel px-3 py-0.5 font-mono text-[0.7rem] text-muted ring-1 ring-line sm:block">hr-payroll.example/dashboard</span>
+        </div>
+        <div class="relative">
+          <Screenshot id="dashboard" eager alt="The HR & Payroll dashboard: headcount, pending leave, payroll cost of the latest runs and quick actions, with fictional demo data" sizes="(min-width: 1216px) 1152px, 100vw" />
+          <div class="absolute inset-0 hidden md:block" aria-hidden="true">
+            {boxes.map((b, i) => (
+              <div class:list={['det absolute', `det-${i}`]}>
+                <span class:list={['absolute inset-0 rounded-md border-2 border-signal/90 bg-signal/[0.06] animate-scan', `det-${i}`]}></span>
+                <span class="absolute -top-6 left-[-2px] rounded-t-md bg-signal px-2 py-0.5 font-mono text-[0.65rem] font-semibold tracking-wider text-ink">[ {b.label} ]</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <figcaption class="sr-only">HR &amp; Payroll by Bracket Systems, shown with fictional demo data.</figcaption>
+      </figure>
+
+      <div class="absolute -bottom-6 right-4 hidden w-64 rounded-xl bg-night-2/95 p-4 font-mono text-xs shadow-2xl ring-1 ring-white/15 backdrop-blur sm:block lg:-right-6" aria-hidden="true">
+        <p class="flex items-center justify-between text-white/70">detecting capabilities <span class="flex items-center gap-1.5 text-signal"><span class="size-1.5 animate-pulse rounded-full bg-signal"></span>live</span></p>
+        <ul class="mt-3 space-y-1.5">
+          {detected.map((d) => <li class="flex items-center justify-between text-white"><span>[ {d} ]</span><span class="text-signal">✓</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="h-10 sm:h-16"></div>
+</section>
+
+<style>
+  /* Detection boxes over the dashboard screenshot (fractions of the image). No inline styles: the CSP forbids them. */
+  .det > .animate-scan { left: 0; top: 0; width: 100%; height: 100%; }
+  .det-0 { left: 19.4%; top: 19.8%; width: 18.9%; height: 13.5%; }
+  .det-1 { left: 19.4%; top: 35.8%; width: 51.8%; height: 36%; animation-delay: 0.6s; }
+  .det-2 { left: 72.6%; top: 35.8%; width: 25.3%; height: 49.5%; animation-delay: 1.2s; }
+</style>

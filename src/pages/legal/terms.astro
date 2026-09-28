@@ -1,0 +1,47 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { responsible } from '../../data/legal';
+---
+<LegalLayout title="Terms of use" description="The terms for using the Bracket Systems website: acceptable use, intellectual property, liability and changes.">
+  <h2>About these terms</h2>
+  <p>These terms cover your use of this website. They don't cover HR &amp; Payroll licenses or custom development
+  projects — those are agreed separately, in writing, with each customer.</p>
+
+  <h2>Using the site</h2>
+  <p>You may browse the site and share its pages. Please don't try to disrupt it, get around its security, overload the
+  contact form, or use it to send spam or unlawful content.</p>
+
+  <h2>Accounts</h2>
+  <p>The site has no user accounts. There's no public live instance of HR &amp; Payroll here, and none of our demos
+  should be used with real personal data.</p>
+
+  <h2>Intellectual property</h2>
+  <p>The text, design, logo and product screenshots on this site belong to Bracket Systems' developers. The product
+  screenshots show a fictional company; names and figures in them are made up. Client names are shown with reference to
+  work we did for them and don't imply their endorsement.</p>
+
+  <h2>Information on this site</h2>
+  <p>We work to describe our product and services accurately, and we mark features that are planned or API-only. Even
+  so, the site is provided for information: features, editions and availability can change, and a quote or written
+  agreement is what defines what you get. Payroll and tax rules change too; have your accountant check any configuration.</p>
+
+  <h2>Service availability</h2>
+  <p>We aim to keep the site available but don't guarantee it will be uninterrupted or error-free.</p>
+
+  <h2>Third-party services and links</h2>
+  <p>The site relies on providers listed in the <a href="/legal/privacy">privacy policy</a> and links to other sites
+  (such as LinkedIn). We're not responsible for their content or practices.</p>
+
+  <h2>Liability</h2>
+  <p>To the extent the law allows, we're not liable for indirect or consequential loss arising from use of this website.
+  Nothing in these terms limits liability that can't be limited by law.</p>
+
+  <h2>Ending access</h2>
+  <p>We may block access for anyone who misuses the site, for example by abusing the contact form.</p>
+
+  <h2>Changes</h2>
+  <p>We may update these terms; the date at the top shows the latest version.</p>
+
+  <h2>Governing law and contact</h2>
+  <p>These terms are governed by the laws of the Philippines. Questions: {responsible.map((r, i) => <>{i > 0 && ', '}<a href={`mailto:${r.email}`}>{r.email}</a></>)}.</p>
+</LegalLayout>

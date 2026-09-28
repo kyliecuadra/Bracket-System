@@ -1,0 +1,24 @@
+---
+interface Props { tag: string; title: string; lead?: string; crumbs?: { href: string; label: string }[] }
+const { tag, title, lead, crumbs } = Astro.props;
+---
+<section class="on-dark relative overflow-hidden bg-night text-white">
+  <div class="grid-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -top-48 right-0 h-96 w-[40rem] rounded-full bg-accent/20 blur-[120px]" aria-hidden="true"></div>
+  <div class="container-page relative py-16 sm:py-20 lg:py-24">
+    {crumbs && (
+      <nav aria-label="Breadcrumb" class="mb-6">
+        <ol class="flex flex-wrap items-center gap-2 font-mono text-xs text-white/60">
+          {crumbs.map((c) => <li class="after:ml-2 after:content-['/']"><a href={c.href} class="hover:text-white">{c.label}</a></li>)}
+          <li aria-current="page" class="text-white/90">{title}</li>
+        </ol>
+      </nav>
+    )}
+    <div class="max-w-3xl animate-rise">
+      <p class="tag">{tag}</p>
+      <h1 class="mt-4 text-4xl font-semibold sm:text-5xl lg:text-6xl">{title}</h1>
+      {lead && <p class="mt-5 text-lg leading-relaxed text-night-text sm:text-xl">{lead}</p>}
+      <slot />
+    </div>
+  </div>
+</section>

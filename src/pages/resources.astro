@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../sections/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Icon from '../components/Icon.astro';
+import CTA from '../sections/CTA.astro';
+import { faq, guides, releaseNotes } from '../data/resources';
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+}];
+---
+<BaseLayout title="Resources — FAQ, guides and release notes" description="Answers about HR & Payroll deployment, payroll, self-service, biometrics and pricing; the product's guides; and recent release notes." jsonLd={jsonLd}>
+  <PageHero tag="[ RESOURCES ]" title="Answers, guides and what's new." />
+  <nav aria-label="On this page" class="border-b border-line bg-panel">
+    <ul class="container-page flex gap-1 overflow-x-auto py-2 text-sm">
+      <li><a href="#faq" class="block rounded-full px-3 py-1.5 hover:bg-tray">FAQ</a></li>
+      <li><a href="#guides" class="block rounded-full px-3 py-1.5 hover:bg-tray">Product guides</a></li>
+      <li><a href="#release-notes" class="block rounded-full px-3 py-1.5 hover:bg-tray">Release notes</a></li>
+      <li><a href="#policies" class="block rounded-full px-3 py-1.5 hover:bg-tray">Security & privacy</a></li>
+    </ul>
+  </nav>
+
+  <section id="faq" class="scroll-mt-20 py-20 sm:py-24">
+    <div class="container-page grid gap-10 lg:grid-cols-[1fr_2fr]">
+      <SectionHeader tag="[ FAQ ]" title="Frequently asked questions." />
+      <div class="divide-y divide-line rounded-2xl bg-panel ring-1 ring-line">
+        {faq.map((f) => (
+          <details class="group px-6 py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-ink [&::-webkit-details-marker]:hidden">
+              {f.q}
+              <span class="grid size-7 shrink-0 place-items-center rounded-full bg-tray text-lg leading-none transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-3 leading-relaxed text-muted">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="guides" class="scroll-mt-20 border-y border-line bg-panel py-20 sm:py-24">
+    <div class="container-page">
+      <SectionHeader tag="[ PRODUCT GUIDES ]" title="Documentation that ships with HR & Payroll." lead="These guides ship with the product. Ask about any of them during a demo." />
+      <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {guides.map((g) => (
+          <li class="rounded-2xl bg-paper p-6 ring-1 ring-line">
+            <Icon name="document" size={22} class="text-accent" />
+            <h3 class="mt-3 font-semibold">{g.title}</h3>
+            <p class="mt-1.5 text-[0.95rem] text-muted">{g.body}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-8 text-sm text-muted">Articles and case studies are on the way.</p>
+    </div>
+  </section>
+
+  <section id="release-notes" class="scroll-mt-20 py-20 sm:py-24">
+    <div class="container-page grid gap-10 lg:grid-cols-[1fr_2fr]">
+      <SectionHeader tag="[ RELEASE NOTES ]" title="Recent HR & Payroll releases." />
+      <ol class="relative space-y-8 border-l border-line-strong pl-6">
+        {releaseNotes.map((r) => (
+          <li class="relative">
+            <span class="absolute top-1.5 -left-[1.95rem] size-3 rounded-full bg-accent ring-4 ring-paper" aria-hidden="true"></span>
+            <p class="font-mono text-xs text-muted"><time datetime={r.date}>{r.date}</time></p>
+            <h3 class="mt-1 font-semibold">{r.title}</h3>
+            <ul class="mt-2 list-disc space-y-1 pl-5 text-muted">{r.items.map((i) => <li>{i}</li>)}</ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="policies" class="scroll-mt-20 border-t border-line bg-panel py-20">
+    <div class="container-page grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {[
+        { href: '/security', title: 'Security', body: 'What the product does to protect data, and what we don\'t claim.' },
+        { href: '/legal/privacy', title: 'Privacy policy', body: 'What this website collects and why.' },
+        { href: '/legal/cookies', title: 'Cookies & analytics', body: 'Cookieless analytics, and how to switch it off.' },
+        { href: '/legal/terms', title: 'Terms of use', body: 'The rules for using this website.' },
+      ].map((l) => (
+        <a href={l.href} class="group rounded-2xl bg-paper p-6 ring-1 ring-line hover:ring-ink/30">
+          <h3 class="flex items-center justify-between font-semibold">{l.title}<Icon name="arrow" size={16} class="transition-transform group-hover:translate-x-0.5" /></h3>
+          <p class="mt-1.5 text-sm text-muted">{l.body}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+  <CTA />
+</BaseLayout>

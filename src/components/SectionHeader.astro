@@ -1,0 +1,10 @@
+---
+interface Props { tag?: string; title: string; lead?: string; align?: 'left' | 'center'; as?: 'h1' | 'h2'; class?: string; dark?: boolean }
+const { tag, title, lead, align = 'left', as: H = 'h2', class: className, dark } = Astro.props;
+---
+<div class:list={[align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl', className]} data-reveal>
+  {tag && <p class="tag mb-3">{tag}</p>}
+  <H class:list={[H === 'h1' ? 'text-4xl sm:text-5xl lg:text-6xl' : 'text-3xl sm:text-4xl', 'font-semibold', dark ? 'text-white' : 'text-ink']}>{title}</H>
+  {lead && <p class:list={['mt-4 text-lg leading-relaxed', dark ? 'text-night-text' : 'text-muted']}>{lead}</p>}
+  <slot />
+</div>

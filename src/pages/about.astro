@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../sections/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import TeamGrid from '../sections/TeamGrid.astro';
+import CTA from '../sections/CTA.astro';
+import Icon from '../components/Icon.astro';
+
+const principles = [
+  { icon: 'check', title: 'Done means it works', body: 'Software that ships and holds up under real use — for real clients and institutions — is the standard, not a demo that looks finished.' },
+  { icon: 'layers', title: 'Practical over fashionable', body: 'PHP and MySQL where they fit, Java and Spring Boot where they fit, computer vision where it earns its place.' },
+  { icon: 'shield', title: 'Honest about limits', body: 'We say what a system does today, what it doesn\'t, and what depends on how it\'s installed. Our product pages do the same.' },
+  { icon: 'people', title: 'Built for the people using it', body: 'The payroll officer, the employee on a phone, the IT admin reading logs at night — each gets a tool made for their job.' },
+] as const;
+const stack = ['Java', 'Spring Boot', 'React', 'TypeScript', 'PHP', 'MySQL', 'PostgreSQL', 'Oracle', 'MS SQL', 'Python', 'YOLO', 'OpenCV', 'OCR', 'Docker', 'Kafka', 'Redis', 'Azure', 'nginx'];
+---
+<BaseLayout title="About & team" description="Bracket Systems is Kylie Cuadra, Prince Macalino and Jansen Oribello — full-stack and Java developers building web platforms, computer-vision tools and enterprise systems.">
+  <PageHero tag="[ ABOUT ]" title="Three developers, one shared standard." lead="Bracket Systems is Kylie, Prince and Jansen — full-stack and Java developers building web platforms, computer-vision tools and enterprise systems for businesses and institutions that need software that actually works." />
+
+  <section class="py-20 sm:py-24">
+    <div class="container-page grid gap-12 lg:grid-cols-2">
+      <div data-reveal>
+        <SectionHeader tag="[ WHO WE ARE ]" title="Builders first." />
+        <div class="mt-6 space-y-4 text-lg leading-relaxed text-ink-3">
+          <p>We started as freelance developers — Kylie has been building for clients since 2019 — and work across the whole stack: Java and Spring Boot backends, web front-ends, computer vision and OCR, and the infrastructure underneath.</p>
+          <p>Our client work covers computer vision for industrial safety, document systems for institutions such as Cavite State University, and business platforms for retail and services.</p>
+          <p>We also build our own product. HR &amp; Payroll brings together what we've learned about records, access control and operations in one platform for Philippine companies.</p>
+        </div>
+      </div>
+      <div data-reveal>
+        <SectionHeader tag="[ HOW WE BUILD ]" title="What we care about." />
+        <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+          {principles.map((p) => (
+            <li class="rounded-2xl bg-panel p-5 ring-1 ring-line">
+              <Icon name={p.icon} size={22} class="text-accent" />
+              <h3 class="mt-3 font-semibold">{p.title}</h3>
+              <p class="mt-1.5 text-[0.95rem] text-muted">{p.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-tray py-20 sm:py-24" id="team">
+    <div class="container-page">
+      <SectionHeader tag="[ THE TEAM ]" title="Kylie, Prince & Jansen" lead='Three developers, one shared standard for what "done" looks like.' />
+      <div class="mt-12"><TeamGrid /></div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="container-page">
+      <SectionHeader tag="[ TECHNOLOGY ]" title="Tools we use in production." lead="From our projects, our product and our résumés." />
+      <ul class="mt-10 flex flex-wrap gap-2">
+        {stack.map((t) => <li class="rounded-full bg-panel px-4 py-2 font-mono text-sm text-ink-3 ring-1 ring-line">{t}</li>)}
+      </ul>
+    </div>
+  </section>
+  <CTA />
+</BaseLayout>

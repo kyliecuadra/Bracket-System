@@ -1,0 +1,13 @@
+---
+import type { FeatureStatus } from '../data/types';
+
+/** Makes the difference between shipped, API-only and planned visible wherever a feature is listed. */
+interface Props { status: FeatureStatus }
+const { status } = Astro.props;
+const look = {
+  available: ['Available', 'bg-accent-soft text-accent-strong'],
+  api: ['API only · screens planned', 'bg-amber/15 text-amber-ink'],
+  planned: ['Planned', 'bg-tray text-ink-3 ring-1 ring-line-strong'],
+}[status];
+---
+<span class:list={['inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[0.68rem] font-medium tracking-wide uppercase', look[1]]}>{look[0]}</span>

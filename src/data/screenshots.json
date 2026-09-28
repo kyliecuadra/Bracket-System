@@ -1,0 +1,247 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "route": "/dashboard",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:24.380Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "employees": {
+    "title": "Employee directory",
+    "route": "/people/employees",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:25.898Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "employee-record": {
+    "title": "Employee record: Employment and reporting line",
+    "route": "/people/employees/:id",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:28.630Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.44
+  },
+  "payroll-runs": {
+    "title": "Payroll runs",
+    "route": "/pay/runs",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:30.068Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "payroll-run": {
+    "title": "Payroll run waiting for approval",
+    "route": "/pay/runs",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:32.816Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.44
+  },
+  "attendance": {
+    "title": "Attendance",
+    "route": "/time/attendance",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:34.278Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "leave": {
+    "title": "Leave requests",
+    "route": "/time/leave",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:35.745Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "documents": {
+    "title": "Employee documents",
+    "route": "/admin/documents",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:37.216Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "reports": {
+    "title": "Reports",
+    "route": "/admin/reports",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:38.672Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "insights": {
+    "title": "Insights",
+    "route": "/admin/insights",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:40.124Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "roles": {
+    "title": "Roles and permissions",
+    "route": "/admin/roles",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:41.590Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "system-health": {
+    "title": "Operations Center: health",
+    "route": "/admin/ops",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:43.093Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.44
+  },
+  "my-overview": {
+    "title": "Employee self-service: overview",
+    "route": "/my/overview",
+    "account": "employee",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:53.143Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "my-payslips": {
+    "title": "Employee self-service: payslips",
+    "route": "/my/payslips",
+    "account": "employee",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:55.864Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "my-leave": {
+    "title": "Employee self-service: leave",
+    "route": "/my/leave",
+    "account": "employee",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:57.310Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.6
+  },
+  "my-cv": {
+    "title": "Employee self-service: CV and qualifications",
+    "route": "/my/cv",
+    "account": "employee",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:26:58.770Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.44
+  },
+  "mobile-overview": {
+    "title": "Self-service on a phone",
+    "route": "/my/overview",
+    "account": "employee",
+    "mobile": true,
+    "capturedAt": "2026-09-28T09:27:02.026Z",
+    "widths": [
+      390,
+      780
+    ],
+    "aspect": 0.4621
+  },
+  "mobile-payslips": {
+    "title": "Payslips on a phone",
+    "route": "/my/payslips",
+    "account": "employee",
+    "mobile": true,
+    "capturedAt": "2026-09-28T09:27:49.082Z",
+    "widths": [
+      390,
+      780
+    ],
+    "aspect": 0.4621
+  },
+  "log-extractor": {
+    "title": "Operations Center: Log Extractor",
+    "route": "/admin/ops",
+    "account": "admin",
+    "mobile": false,
+    "capturedAt": "2026-09-28T09:28:41.070Z",
+    "widths": [
+      800,
+      1280,
+      1920
+    ],
+    "aspect": 1.44
+  }
+}

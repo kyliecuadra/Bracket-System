@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../sections/Hero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProductFrame from '../components/ProductFrame.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import ProductShowcase from '../components/ProductShowcase';
+import ServicesGrid from '../sections/ServicesGrid.astro';
+import WorkGrid from '../sections/WorkGrid.astro';
+import TeamGrid from '../sections/TeamGrid.astro';
+import SecurityBand from '../sections/SecurityBand.astro';
+import CTA from '../sections/CTA.astro';
+import { site } from '../data/site';
+import { hrPayroll as product } from '../data/products/hr-payroll';
+
+const lifecycle = [
+  { n: '01', title: 'Calculate', who: 'Payroll officer', body: 'Pay, premiums, deductions and contributions from the attendance, leave and loans already in the system.' },
+  { n: '02', title: 'Submit', who: 'Payroll officer', body: 'The run is locked for review, with totals for gross, deductions, net pay and employer contributions.' },
+  { n: '03', title: 'Review & approve', who: 'Payroll approver', body: 'A different person reviews and approves — or sends it back with a reason.' },
+  { n: '04', title: 'Finalize', who: 'Payroll approver', body: 'Payslips appear in self-service and loans are applied. Corrections go through a linked reversal run.' },
+];
+const problems = [
+  { icon: 'layers', title: 'Records in five places', body: 'Spreadsheets for pay, a folder for documents, chat for leave. Nothing agrees with anything else.' },
+  { icon: 'lock', title: 'Sensitive data, loose access', body: 'Salaries and government IDs shared more widely than anyone intended, with no record of who saw what.' },
+  { icon: 'pulse', title: 'Systems nobody can see into', body: 'When something breaks, the people running it have no health checks, no alerts and no usable logs.' },
+] as const;
+const selfService = [
+  'Only their own finalized payslips, with the full breakdown and a PDF',
+  'Leave balances and requests, attendance and overtime',
+  'CV and qualifications filled in from an uploaded CV, reviewed before saving',
+  'Announcements, policies to acknowledge, recognition and privacy requests',
+];
+---
+<BaseLayout
+  title={site.name}
+  description={site.description}
+  jsonLd={[{ '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url }]}
+>
+  <Hero />
+
+  <!-- Problem -->
+  <section class="py-24 sm:py-28">
+    <div class="container-page">
+      <SectionHeader tag="[ THE PROBLEM ]" title="Most business software is held together by habit." lead="We build systems that replace the workarounds — one place for the data, access that matches the org chart, and tooling for the people who keep it running." />
+      <ul class="mt-12 grid gap-5 md:grid-cols-3">
+        {problems.map((p) => (
+          <li data-reveal class="rounded-[var(--radius-card)] border border-dashed border-line-strong p-6">
+            <Icon name={p.icon} size={22} class="text-muted" />
+            <h3 class="mt-4 font-semibold text-ink">{p.title}</h3>
+            <p class="mt-2 text-[0.95rem] leading-relaxed text-muted">{p.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Capability -->
+  <section class="border-y border-line bg-panel py-24 sm:py-28">
+    <div class="container-page">
+      <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+        <SectionHeader tag="[ WHAT WE BUILD ]" title="Overlapping strengths, applied together." lead="Web, Java, AI, enterprise and cloud engineering — the same team from the database to the screen." />
+        <Button href="/services" variant="secondary" icon="arrow">All services</Button>
+      </div>
+      <div class="mt-12"><ServicesGrid /></div>
+    </div>
+  </section>
+
+  <!-- Flagship product -->
+  <section class="py-24 sm:py-28">
+    <div class="container-page grid items-center gap-12 lg:grid-cols-[1fr_1.35fr]">
+      <div data-reveal>
+        <p class="tag">{product.tag}</p>
+        <h2 class="mt-3 text-3xl font-semibold sm:text-4xl">{product.fullName}</h2>
+        <p class="mt-4 text-xl text-ink-3">{product.headline}</p>
+        <p class="mt-4 text-lg leading-relaxed text-muted">{product.summary}</p>
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {product.modules.filter((m) => m.status === 'available').map((m) => (
+            <li><a href={`/products/hr-payroll#${m.id}`} class="inline-flex items-center gap-1.5 rounded-full bg-panel px-3 py-1.5 text-sm text-ink-3 ring-1 ring-line hover:ring-ink/30"><Icon name={m.icon} size={15} class="text-accent" />{m.title}</a></li>
+          ))}
+        </ul>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button href="/products/hr-payroll" icon="arrow">Explore the platform</Button>
+          <Button href="/demo" variant="secondary">Take the product tour</Button>
+        </div>
+      </div>
+      <div data-reveal>
+        <ProductFrame id="employee-record" route="/people/employees/…" alt="An employee record in HR & Payroll: the Employment tab with the reporting line from the CEO to the employee (fictional demo data)" sizes="(min-width: 1024px) 680px, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Real product interface -->
+  <section class="bg-tray py-24 sm:py-28" id="tour">
+    <div class="container-page">
+      <SectionHeader tag="[ THE REAL PRODUCT ]" title="Explore the actual interface." lead="Every screen below is a screenshot of the running application, captured with a fictional demo company — not a mock-up." />
+      <div class="mt-12">
+        <ProductShowcase client:visible steps={product.tour} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow -->
+  <section class="py-24 sm:py-28">
+    <div class="container-page">
+      <SectionHeader tag="[ HOW PAYROLL MOVES ]" title="Four eyes on every payroll run." lead="Each step has its own permission, so the person who prepares a run isn't the person who approves it." />
+      <ol class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {lifecycle.map((s) => (
+          <li data-reveal class="relative rounded-[var(--radius-card)] bg-panel p-6 shadow-[var(--shadow-card)] ring-1 ring-line">
+            <p class="font-mono text-sm text-accent">{s.n}</p>
+            <h3 class="mt-3 text-lg font-semibold">{s.title}</h3>
+            <p class="mt-1 font-mono text-[0.7rem] tracking-wider text-muted uppercase">{s.who}</p>
+            <p class="mt-3 text-[0.95rem] leading-relaxed text-muted">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="mt-12" data-reveal>
+        <ProductFrame id="payroll-run" route="/pay/runs/…" alt="A payroll run waiting for approval: its lifecycle steps, totals and a payslip per employee (fictional demo data)" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Self-service on a phone -->
+  <section class="border-y border-line bg-panel py-24 sm:py-28">
+    <div class="container-page grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+      <div data-reveal>
+        <SectionHeader tag="[ SELF-SERVICE ]" title="Payslips and leave in every employee's pocket." lead="The same web app works on a phone: employees check payslips, file leave and overtime, time in and out, and keep their documents and CV up to date." />
+        <ul class="mt-8 space-y-3">
+          {selfService.map((t) => <li class="flex gap-3 text-ink-3"><Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" />{t}</li>)}
+        </ul>
+      </div>
+      <div class="flex justify-center gap-5" data-reveal>
+        <ProductFrame device="phone" id="mobile-payslips" alt="My payslips on a phone: the June payslip with its breakdown (fictional demo data)" class="w-[46%] max-w-[260px]" />
+        <ProductFrame device="phone" id="mobile-overview" alt="An employee's overview on a phone (fictional demo data)" class="mt-12 w-[46%] max-w-[260px]" />
+      </div>
+    </div>
+  </section>
+
+  <SecurityBand />
+
+  <!-- Work -->
+  <section class="py-24 sm:py-28">
+    <div class="container-page">
+      <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+        <SectionHeader tag="[ SELECTED WORK ]" title="Shipped for real clients and institutions." lead="Computer vision, document systems and business platforms — alongside our own product." />
+        <Button href="/work" variant="secondary" icon="arrow">All work</Button>
+      </div>
+      <div class="mt-12"><WorkGrid /></div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="bg-tray py-24 sm:py-28">
+    <div class="container-page">
+      <SectionHeader tag="[ THE TEAM ]" title="Kylie, Prince & Jansen." lead={'Three developers, one shared standard for what "done" looks like.'} />
+      <div class="mt-12"><TeamGrid /></div>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>

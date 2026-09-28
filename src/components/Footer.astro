@@ -1,0 +1,33 @@
+---
+import Logo from './Logo.astro';
+import { footerNav, site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="on-dark bg-night text-night-text">
+  <div class="container-page grid gap-12 py-16 lg:grid-cols-[1.2fr_2fr]">
+    <div class="max-w-sm">
+      <Logo tone="dark" />
+      <p class="mt-5 text-sm leading-relaxed">
+        Full-stack and Java developers building web platforms, computer-vision tools and enterprise systems — and the
+        makers of HR &amp; Payroll.
+      </p>
+      <p class="mt-5 font-mono text-xs tracking-wider text-signal">[ {site.capabilities.join(' · ').toUpperCase()} ]</p>
+    </div>
+    <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
+      {footerNav.map((col) => (
+        <nav aria-label={col.title}>
+          <h2 class="font-mono text-xs tracking-wider text-white/60 uppercase">{col.title}</h2>
+          <ul class="mt-4 space-y-2.5">
+            {col.links.map((l) => <li><a href={l.href} class="text-sm text-night-text hover:text-white">{l.label}</a></li>)}
+          </ul>
+        </nav>
+      ))}
+    </div>
+  </div>
+  <div class="border-t border-night-line">
+    <div class="container-page flex flex-col gap-2 py-6 text-xs text-white/70 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} Bracket Systems · Kylie Cuadra, Prince Macalino &amp; Jansen Oribello</p>
+      <p>Product screenshots show fictional demo data.</p>
+    </div>
+  </div>
+</footer>

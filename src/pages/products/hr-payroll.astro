@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../sections/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ProductFrame from '../../components/ProductFrame.astro';
+import ProductShowcase from '../../components/ProductShowcase';
+import Button from '../../components/Button.astro';
+import Icon from '../../components/Icon.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import SecurityBand from '../../sections/SecurityBand.astro';
+import CTA from '../../sections/CTA.astro';
+import { hrPayroll as p } from '../../data/products/hr-payroll';
+import { site } from '../../data/site';
+import { shot } from '../../lib/shots';
+
+const alt = (id: string) => `HR & Payroll — ${shot(id).title} (fictional demo data)`;
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: p.fullName,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web browser; self-hosted server (Docker)',
+  description: p.summary,
+  publisher: { '@type': 'Organization', name: site.name, url: site.url },
+  featureList: p.modules.filter((m) => m.status === 'available').map((m) => m.title),
+  screenshot: new URL('/screenshots/dashboard-1280.webp', site.url).href,
+}];
+---
+<BaseLayout
+  title="HR & Payroll — HR management and Philippine payroll software"
+  description="HR & Payroll by Bracket Systems: employee records, Philippine payroll (SSS, PhilHealth, Pag-IBIG, BIR), attendance, leave, documents, reports and self-service, installed on your own infrastructure."
+  jsonLd={jsonLd}
+  image="/og/hr-payroll.png"
+>
+  <PageHero tag={p.tag} title={p.fullName} lead={p.summary} crumbs={[{ href: '/', label: 'Home' }, { href: '/products', label: 'Products' }]}>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/demo#request" variant="bright" size="lg" icon="arrow">Request a demo</Button>
+      <Button href="/demo" variant="outline-dark" size="lg">Take the product tour</Button>
+    </div>
+    <p class="mt-6 font-mono text-xs text-white/60">{p.audience}</p>
+  </PageHero>
+
+  <!-- Overview: module index -->
+  <section class="py-20 sm:py-24">
+    <div class="container-page">
+      <SectionHeader tag="[ OVERVIEW ]" title={p.headline} lead="Records, time and pay share one database, so a leave approval, an attendance correction or a salary change flows into the next payroll run without re-keying." />
+      <ul class="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {p.modules.map((m) => (
+          <li>
+            <a href={`#${m.id}`} class="flex h-full items-start gap-3 rounded-xl bg-panel p-4 ring-1 ring-line transition hover:ring-ink/30">
+              <span class="grid size-9 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent"><Icon name={m.icon} size={18} /></span>
+              <span>
+                <span class="flex flex-wrap items-center gap-2 font-medium text-ink">{m.title}{m.status !== 'available' && <StatusBadge status={m.status} />}</span>
+                <span class="mt-0.5 block text-sm text-muted">{m.summary}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Modules, alternating with their real screens -->
+  {p.modules.map((m, i) => (
+    <section id={m.id} class:list={['scroll-mt-20 py-16 sm:py-20', i % 2 === 0 ? 'border-y border-line bg-panel' : '']}>
+      <div class:list={['container-page grid items-center gap-10', m.shot ? 'lg:grid-cols-[1fr_1.4fr]' : 'max-w-3xl']}>
+        <div data-reveal class:list={[m.shot && i % 2 === 1 && 'lg:order-2']}>
+          <div class="flex items-center gap-3">
+            <span class="grid size-11 place-items-center rounded-xl bg-accent-soft text-accent"><Icon name={m.icon} size={22} /></span>
+            {m.status !== 'available' && <StatusBadge status={m.status} />}
+          </div>
+          <h2 class="mt-5 text-2xl font-semibold sm:text-3xl">{m.title}</h2>
+          <p class="mt-3 text-lg text-muted">{m.summary}</p>
+          <ul class="mt-6 space-y-3">
+            {m.points.map((pt) => <li class="flex gap-3 text-ink-3"><Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" /><span>{pt}</span></li>)}
+          </ul>
+        </div>
+        {m.shot && (
+          <div data-reveal>
+            <ProductFrame id={m.shot} route={shot(m.shot).route} alt={alt(m.shot)} sizes="(min-width: 1024px) 700px, 100vw" />
+          </div>
+        )}
+      </div>
+    </section>
+  ))}
+
+  <!-- Log Extractor and self-service extras -->
+  <section class="py-16 sm:py-20" id="log-extractor">
+    <div class="container-page grid items-start gap-10 lg:grid-cols-2">
+      <div data-reveal>
+        <SectionHeader tag="[ FOR IT TEAMS ]" title="A Log Extractor that respects privacy." lead="Search, follow and export logs from every service in one place. Emails and long numbers are masked before a line is written and again when it's read, and each search or export is recorded in the audit trail." />
+        <div class="mt-8"><ProductFrame id="log-extractor" route="/admin/ops" alt={alt('log-extractor')} sizes="(min-width: 1024px) 560px, 100vw" /></div>
+      </div>
+      <div data-reveal>
+        <SectionHeader tag="[ FOR EMPLOYEES ]" title="Self-service that answers questions before they're asked." lead="Employees see their own payslips, balances and records from any browser, including their phone." />
+        <div class="mt-8"><ProductFrame id="my-cv" route="/my/cv" alt={alt('my-cv')} sizes="(min-width: 1024px) 560px, 100vw" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full tour -->
+  <section class="bg-tray py-20 sm:py-24">
+    <div class="container-page">
+      <SectionHeader tag="[ PRODUCT TOUR ]" title="Every major screen, one click away." />
+      <div class="mt-10"><ProductShowcase client:visible steps={p.tour} /></div>
+    </div>
+  </section>
+
+  <SecurityBand />
+
+  <!-- Deployment & architecture -->
+  <section class="py-20 sm:py-24" id="deployment">
+    <div class="container-page grid gap-12 lg:grid-cols-2">
+      <div>
+        <SectionHeader tag="[ DEPLOYMENT ]" title="Runs on your infrastructure." lead="HR & Payroll is installed where your data should live. Here's what's supported today — and what isn't yet." />
+        <ul class="mt-8 space-y-3">
+          {p.deployment.map((d) => (
+            <li data-reveal class="rounded-xl bg-panel p-5 ring-1 ring-line">
+              <p class="flex flex-wrap items-center gap-2 font-medium text-ink">{d.title} <StatusBadge status={d.status} /></p>
+              <p class="mt-1.5 text-[0.95rem] text-muted">{d.detail}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <SectionHeader tag="[ ARCHITECTURE ]" title="Built like enterprise software, because it is." lead="Independent services, each with its own database, behind one gateway." />
+        <dl class="mt-8 divide-y divide-line overflow-hidden rounded-xl bg-panel ring-1 ring-line">
+          {p.architecture.map((a) => (
+            <div class="grid gap-1 px-5 py-4 sm:grid-cols-[8rem_1fr]">
+              <dt class="font-mono text-xs tracking-wider text-muted uppercase sm:pt-0.5">{a.label}</dt>
+              <dd class="text-ink">{a.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="mt-6 text-sm text-muted">Editions and limits: <a href="/pricing" class="font-medium text-accent underline">see pricing</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../sections/PageHero.astro';
+import WorkGrid from '../../sections/WorkGrid.astro';
+import ProductFrame from '../../components/ProductFrame.astro';
+import Button from '../../components/Button.astro';
+import CTA from '../../sections/CTA.astro';
+---
+<BaseLayout title="Selected work" description="Projects by Bracket Systems: a real-time PPE scanner, a document extraction engine, an accreditation document system for Cavite State University, a spa operations suite and an e-commerce system.">
+  <PageHero tag="[ SELECTED WORK ]" title="A mix of computer vision, document systems, and business platforms." lead="Shipped for real clients and institutions." />
+  <section class="py-20 sm:py-24">
+    <div class="container-page">
+      <WorkGrid />
+    </div>
+  </section>
+  <section class="border-t border-line bg-panel py-20 sm:py-24">
+    <div data-reveal class="container-page grid items-center gap-10 lg:grid-cols-[1fr_1.3fr]">
+      <div>
+        <p class="tag">[ OUR OWN PRODUCT ]</p>
+        <h2 class="mt-3 text-3xl font-semibold">HR &amp; Payroll</h2>
+        <p class="mt-3 text-lg text-muted">Our largest build: 24 Spring Boot services, a React web app, Philippine payroll rules and an Operations Center — designed, built and documented by the team.</p>
+        <div class="mt-6"><Button href="/products/hr-payroll" icon="arrow">Explore the platform</Button></div>
+      </div>
+      <ProductFrame id="payroll-runs" route="/pay/runs" alt="HR & Payroll: the list of payroll runs (fictional demo data)" sizes="(min-width: 1024px) 640px, 100vw" />
+    </div>
+  </section>
+  <CTA title="Your project could be next." lead="Tell us what you're building and we'll help scope it out." />
+</BaseLayout>

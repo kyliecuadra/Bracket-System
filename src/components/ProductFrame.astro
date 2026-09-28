@@ -1,0 +1,27 @@
+---
+import Screenshot from './Screenshot.astro';
+
+/**
+ * A real product screenshot in a browser (or phone) frame. The address bar shows the product route, not a real host.
+ */
+interface Props { id: string; alt: string; route?: string; device?: 'browser' | 'phone'; eager?: boolean; sizes?: string; class?: string }
+const { id, alt, route, device = 'browser', eager, sizes, class: className } = Astro.props;
+---
+{device === 'browser' ? (
+  <figure class:list={['overflow-hidden rounded-xl bg-panel ring-1 ring-ink/10 shadow-[var(--shadow-frame)]', className]}>
+    <div class="flex h-9 items-center gap-2 border-b border-line bg-tray px-4" aria-hidden="true">
+      <span class="size-2.5 rounded-full bg-line-strong"></span>
+      <span class="size-2.5 rounded-full bg-line-strong"></span>
+      <span class="size-2.5 rounded-full bg-line-strong"></span>
+      {route && <span class="ml-3 hidden truncate rounded-md bg-panel px-3 py-0.5 font-mono text-[0.7rem] text-muted ring-1 ring-line sm:block">hr-payroll.example{route}</span>}
+    </div>
+    <Screenshot id={id} alt={alt} eager={eager} sizes={sizes} />
+    <slot />
+  </figure>
+) : (
+  <figure class:list={['overflow-hidden rounded-[2.2rem] bg-ink p-2.5 shadow-[var(--shadow-frame)] ring-1 ring-ink/40', className]}>
+    <div class="overflow-hidden rounded-[1.7rem]">
+      <Screenshot id={id} alt={alt} eager={eager} sizes={sizes ?? '(min-width: 768px) 300px, 70vw'} />
+    </div>
+  </figure>
+)}

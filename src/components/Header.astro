@@ -1,0 +1,73 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { nav } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = (href: string) => path === href || path.startsWith(href.split('#')[0] + '/') || (href.startsWith('/products') && path.startsWith('/products'));
+---
+<header class="sticky top-0 z-40 border-b border-line/80 bg-paper/85 backdrop-blur-md supports-[backdrop-filter]:bg-paper/70">
+  <div class="container-page flex h-16 items-center justify-between gap-4">
+    <a href="/" class="rounded-md" aria-label="Bracket Systems home"><Logo /></a>
+
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {nav.map((n) => (
+          <li>
+            <a
+              href={n.href}
+              aria-current={current(n.href) ? 'page' : undefined}
+              class:list={['rounded-full px-3 py-2 text-sm transition-colors', current(n.href) ? 'bg-tray font-medium text-ink' : 'text-ink-3 hover:bg-tray hover:text-ink']}
+            >{n.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href="/contact" class="hidden rounded-full px-3 py-2 text-sm text-ink-3 hover:text-ink sm:inline-block lg:hidden xl:inline-block">Contact</a>
+      <a href="/demo#request" class="hidden h-10 items-center rounded-full bg-ink px-5 text-sm font-medium text-white transition-colors hover:bg-ink-2 sm:inline-flex">Request a demo</a>
+      <button
+        type="button"
+        class="inline-flex size-10 items-center justify-center rounded-full text-ink hover:bg-tray lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        data-menu-button
+      >
+        <span class="sr-only" data-menu-label>Open menu</span>
+        <Icon name="menu" size={22} class="menu-open-icon" />
+        <Icon name="close" size={22} class="menu-close-icon hidden" />
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" aria-label="Main" class="hidden border-t border-line bg-paper lg:hidden" data-menu>
+    <ul class="container-page flex flex-col py-3">
+      {nav.map((n) => (
+        <li><a href={n.href} aria-current={current(n.href) ? 'page' : undefined} class:list={['block rounded-lg px-3 py-3 text-base', current(n.href) ? 'bg-tray font-medium' : 'text-ink-3']}>{n.label}</a></li>
+      ))}
+      <li><a href="/contact" class="block rounded-lg px-3 py-3 text-base text-ink-3">Contact</a></li>
+      <li class="pt-2"><a href="/demo#request" class="flex h-12 items-center justify-center rounded-full bg-ink text-base font-medium text-white">Request a demo</a></li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  if (button && menu) {
+    const set = (open: boolean) => {
+      button.setAttribute('aria-expanded', String(open));
+      menu.classList.toggle('hidden', !open);
+      button.querySelector('.menu-open-icon')?.classList.toggle('hidden', open);
+      button.querySelector('.menu-close-icon')?.classList.toggle('hidden', !open);
+      const label = button.querySelector('[data-menu-label]');
+      if (label) label.textContent = open ? 'Close menu' : 'Open menu';
+    };
+    button.addEventListener('click', () => set(button.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') { set(false); button.focus(); }
+    });
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (m) => { if (m.matches) set(false); });
+  }
+</script>

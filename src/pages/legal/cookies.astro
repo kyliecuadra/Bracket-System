@@ -1,0 +1,43 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+---
+<LegalLayout title="Cookies & analytics" description="The Bracket Systems website sets no cookies. It uses cookieless Vercel Web Analytics, which you can switch off here.">
+  <h2>Cookies</h2>
+  <p>This website doesn't set any cookies — not for analytics, advertising or anything else.</p>
+
+  <h2>Analytics</h2>
+  <p>We count page views with Vercel Web Analytics, which works without cookies and without identifying you. See the
+  <a href="/legal/privacy">privacy policy</a> for exactly what it collects. It doesn't run when your browser sends Global
+  Privacy Control or Do Not Track.</p>
+
+  <h2 id="choice">Your choice</h2>
+  <p>You can switch analytics off for this browser. We remember the choice in your browser's local storage (not a cookie),
+  so it applies until you clear this site's data.</p>
+  <div class="not-prose mt-5 rounded-xl bg-panel p-5 ring-1 ring-line" data-analytics-choice>
+    <p class="font-medium text-ink" data-analytics-status aria-live="polite">Checking your setting…</p>
+    <div class="mt-4 flex flex-wrap gap-3">
+      <button type="button" data-analytics-off class="h-10 rounded-full bg-ink px-5 text-sm font-medium text-white hover:bg-ink-2">Switch analytics off</button>
+      <button type="button" data-analytics-on class="h-10 rounded-full px-5 text-sm font-medium text-ink ring-1 ring-line-strong hover:ring-ink-3">Allow analytics</button>
+    </div>
+  </div>
+
+  <h2>Local storage</h2>
+  <p>Apart from that one setting, the site stores nothing on your device.</p>
+</LegalLayout>
+
+<script>
+  import { optedOut, setOptOut } from '../../lib/analytics';
+
+  const status = document.querySelector('[data-analytics-status]');
+  const render = () => {
+    if (!status) return;
+    const nav = navigator as Navigator & { globalPrivacyControl?: boolean };
+    const signal = nav.globalPrivacyControl === true || nav.doNotTrack === '1';
+    status.textContent = signal
+      ? 'Analytics is off: your browser asks sites not to track you, and we respect that.'
+      : optedOut() ? 'Analytics is off for this browser.' : 'Analytics is on (cookieless, anonymous page counts).';
+  };
+  document.querySelector('[data-analytics-off]')?.addEventListener('click', () => { setOptOut(true); render(); });
+  document.querySelector('[data-analytics-on]')?.addEventListener('click', () => { setOptOut(false); render(); });
+  render();
+</script>

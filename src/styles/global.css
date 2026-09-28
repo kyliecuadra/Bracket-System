@@ -1,0 +1,120 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/jetbrains-mono";
+
+/*
+ * Bracket Systems design tokens. Evolved from the first site (paper, ink, a teal "signal", mono [ TAG ] labels)
+ * and the bracket logo (its amber right bracket). Teal replaces the logo's violet.
+ *   ink      text and dark sections        paper   page background
+ *   accent   teal: links, buttons, focus   signal  bright teal on dark backgrounds
+ *   amber    the right bracket; highlights on dark backgrounds only (fails contrast as text on paper)
+ */
+@theme {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "Cascadia Code", Menlo, monospace;
+
+  --color-ink: #0b1220;
+  --color-ink-2: #1e293b;
+  --color-ink-3: #334155;
+  --color-muted: #525b6b;
+  --color-paper: #f7f7f4;
+  --color-panel: #ffffff;
+  --color-tray: #eef0ec;
+  --color-line: #e2e5df;
+  --color-line-strong: #c9cec6;
+
+  --color-accent: #0f766e;
+  --color-accent-strong: #115e59;
+  --color-accent-soft: #e3f4f1;
+  --color-signal: #2dd4bf;
+  --color-amber: #f5a524;
+  --color-amber-ink: #92400e;
+
+  --color-night: #070b14;
+  --color-night-2: #0e1626;
+  --color-night-line: rgb(255 255 255 / 0.1);
+  --color-night-text: #c7cfdb;
+
+  --radius-card: 1rem;
+  --shadow-frame: 0 1px 2px rgb(11 18 32 / 0.06), 0 12px 32px -8px rgb(11 18 32 / 0.18), 0 40px 80px -24px rgb(11 18 32 / 0.25);
+  --shadow-card: 0 1px 2px rgb(11 18 32 / 0.05), 0 8px 24px -12px rgb(11 18 32 / 0.12);
+
+  --animate-rise: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-scan: scan 3.2s ease-in-out infinite;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes scan {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+  }
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 5rem;
+  }
+  body { min-height: 100dvh; }
+  ::selection { background: var(--color-signal); color: var(--color-ink); }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .on-dark :focus-visible { outline-color: var(--color-signal); }
+  h1, h2, h3 { text-wrap: balance; letter-spacing: -0.025em; }
+  p { text-wrap: pretty; }
+  a { text-underline-offset: 0.2em; }
+}
+
+@layer components {
+  /* [ TAG ] labels carried over from the first site */
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+  .on-dark .tag { color: var(--color-signal); }
+
+  .container-page { width: 100%; max-width: 76rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .container-page { padding-inline: 2rem; } }
+
+  /* Faint engineering grid behind dark sections */
+  .grid-bg {
+    background-image:
+      linear-gradient(var(--color-night-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-night-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 75%);
+  }
+
+  .prose-legal h2 { font-size: 1.25rem; font-weight: 600; margin-top: 2.25rem; margin-bottom: 0.5rem; }
+  .prose-legal h3 { font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.25rem; }
+  .prose-legal p, .prose-legal li { color: var(--color-ink-3); line-height: 1.7; }
+  .prose-legal p + p { margin-top: 0.75rem; }
+  .prose-legal ul { list-style: disc; padding-left: 1.25rem; margin-block: 0.5rem; }
+  .prose-legal a { color: var(--color-accent); text-decoration: underline; }
+}
+
+/* Reveal on scroll: elements start visible without JavaScript; the script adds .reveal-ready first. */
+.reveal-ready [data-reveal]:not(.is-visible) { opacity: 0; transform: translateY(16px); }
+.reveal-ready [data-reveal] { transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-ready [data-reveal]:not(.is-visible) { opacity: 1; transform: none; }
+}

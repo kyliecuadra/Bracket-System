@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../sections/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Icon from '../components/Icon.astro';
+import ProductFrame from '../components/ProductFrame.astro';
+import CTA from '../sections/CTA.astro';
+import { controls, notClaimed } from '../data/security';
+---
+<BaseLayout title="Security" description="How HR & Payroll protects employee and payroll data: sign-in and two-factor, SSO, role-based access with record scopes, separation of duties, audit trail, encrypted files, masked logs — and what we don't claim.">
+  <PageHero tag="[ SECURITY ]" title="Security, stated plainly." lead="What HR & Payroll does to protect people's data today, what depends on your installation, and what we don't claim." />
+
+  <section class="py-20 sm:py-24">
+    <div class="container-page">
+      <SectionHeader tag="[ IN THE PRODUCT ]" title="Controls built into HR & Payroll." />
+      <ul class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {controls.map((c) => (
+          <li data-reveal class="rounded-2xl bg-panel p-6 ring-1 ring-line">
+            <div class="flex items-center justify-between">
+              <span class="grid size-10 place-items-center rounded-xl bg-accent-soft text-accent"><Icon name={c.icon} size={20} /></span>
+              <span class:list={['rounded-full px-2.5 py-0.5 font-mono text-[0.68rem] tracking-wide uppercase', c.status === 'implemented' ? 'bg-accent-soft text-accent-strong' : 'bg-amber/15 text-amber-ink']}>{c.status === 'implemented' ? 'In the product' : 'Depends on your install'}</span>
+            </div>
+            <h3 class="mt-4 font-semibold">{c.title}</h3>
+            <p class="mt-2 text-[0.95rem] leading-relaxed text-muted">{c.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-panel py-20 sm:py-24">
+    <div class="container-page grid items-center gap-10 lg:grid-cols-[1fr_1.3fr]">
+      <div data-reveal>
+        <SectionHeader tag="[ ACCESS CONTROL ]" title="Roles that match how HR and payroll divide work." lead="Built-in roles — HR manager, HR officer, payroll officer, payroll approver, line manager, auditor and more — are made of individual permissions. Each user's access can be limited to a branch or department." />
+      </div>
+      <div data-reveal><ProductFrame id="roles" route="/admin/roles" alt="HR & Payroll roles and permissions (fictional demo data)" sizes="(min-width: 1024px) 640px, 100vw" /></div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24">
+    <div class="container-page grid gap-12 lg:grid-cols-2">
+      <div>
+        <SectionHeader tag="[ WHAT WE DON'T CLAIM ]" title="No borrowed badges." lead="We'd rather tell you what isn't there than let you assume it is." />
+        <ul class="mt-8 space-y-3">
+          {notClaimed.map((n) => <li class="flex gap-3 rounded-xl bg-panel p-4 text-ink-3 ring-1 ring-line"><Icon name="close" size={18} class="mt-0.5 shrink-0 text-muted" />{n}</li>)}
+        </ul>
+      </div>
+      <div>
+        <SectionHeader tag="[ THIS WEBSITE ]" title="And this site?" />
+        <ul class="mt-8 space-y-3 text-ink-3">
+          <li class="flex gap-3"><Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" />Served over HTTPS with a strict Content Security Policy and security headers.</li>
+          <li class="flex gap-3"><Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" />No advertising or tracking cookies; privacy-friendly, cookieless analytics you can switch off.</li>
+          <li class="flex gap-3"><Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" />Contact messages are validated, rate-limited and only emailed to the team — not stored in a database.</li>
+          <li class="flex gap-3"><Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" />Product screenshots use a fictional company; no real employee or payroll data appears on this site.</li>
+        </ul>
+        <p class="mt-8 text-muted">Found a security issue in our product or this site? Email <a href="mailto:christkylie.cuadra@gmail.com" class="text-accent underline">christkylie.cuadra@gmail.com</a> and we'll respond as soon as we can.</p>
+      </div>
+    </div>
+  </section>
+  <CTA title="Questions from your IT or security team?" lead="Bring them to a demo — we'll walk through the architecture, access model and deployment in detail." />
+</BaseLayout>

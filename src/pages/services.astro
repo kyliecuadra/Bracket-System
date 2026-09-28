@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../sections/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ServicesGrid from '../sections/ServicesGrid.astro';
+import CTA from '../sections/CTA.astro';
+import Button from '../components/Button.astro';
+import { process } from '../data/services';
+---
+<BaseLayout title="Services — web, Java, AI, enterprise and cloud development" description="Software development by Bracket Systems: web platforms, Java and Spring Boot backends, computer vision and OCR, enterprise and institutional systems, and cloud architecture.">
+  <PageHero tag="[ SERVICES ]" title="Software that actually works — built end to end." lead="Web platforms, Java backends, applied AI and enterprise systems for businesses and institutions. The same small team scopes, builds and ships it.">
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/contact" variant="bright" size="lg" icon="arrow">Build with us</Button>
+      <Button href="/work" variant="outline-dark" size="lg">See our work</Button>
+    </div>
+  </PageHero>
+
+  <section class="py-20 sm:py-24">
+    <div class="container-page">
+      <ServicesGrid detailed />
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-panel py-20 sm:py-24">
+    <div class="container-page">
+      <SectionHeader tag="[ HOW WE WORK ]" title="From a scope you can agree with to software you can run." />
+      <ol class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {process.map((s) => (
+          <li data-reveal class="border-t-2 border-ink pt-5">
+            <p class="font-mono text-sm text-accent">{s.step}</p>
+            <h3 class="mt-2 text-lg font-semibold">{s.title}</h3>
+            <p class="mt-2 text-[0.95rem] leading-relaxed text-muted">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <CTA title="Tell us what you're building." lead="A web platform, an AI tool, or an enterprise system — we'll help scope it out." />
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../sections/PageHero.astro';
+import ContactForm from '../components/ContactForm';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { team } from '../data/team';
+---
+<BaseLayout title="Contact" description="Tell Bracket Systems what you're building — a web platform, an AI tool, an enterprise system — or ask about HR & Payroll.">
+  <PageHero tag="[ GET IN TOUCH ]" title="Have a project in mind? Let's scope it out." lead="Tell us what you're building — web platform, AI tool, or an enterprise system — and we'll get back to you." />
+  <section class="py-20 sm:py-24">
+    <div class="container-page grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+      <div class="rounded-3xl bg-panel p-6 shadow-[var(--shadow-card)] ring-1 ring-line sm:p-8">
+        <h2 class="mb-6 text-2xl font-semibold">Send us a message</h2>
+        <ContactForm client:load defaultType="Custom web platform" emails={site.emails} />
+      </div>
+      <aside aria-labelledby="direct">
+        <h2 id="direct" class="text-2xl font-semibold">Or email us directly</h2>
+        <p class="mt-3 text-muted">Every message reaches the person you write to; the form above reaches all three of us.</p>
+        <ul class="mt-6 space-y-3">
+          {team.map((m) => (
+            <li class="rounded-xl bg-panel p-4 ring-1 ring-line">
+              <p class="font-medium">{m.name}</p>
+              <p class="font-mono text-[0.7rem] text-muted">{m.role}</p>
+              <a href={`mailto:${m.email}`} class="mt-2 inline-flex max-w-full items-center gap-1.5 text-sm text-accent hover:underline"><Icon name="mail" size={15} /><span class="truncate">{m.email}</span></a>
+            </li>
+          ))}
+        </ul>
+        <a href={`mailto:${site.emails.join(',')}`} class="mt-5 inline-flex items-center gap-2 font-medium text-ink underline decoration-line-strong hover:decoration-ink">Email all three at once <Icon name="arrow" size={16} /></a>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

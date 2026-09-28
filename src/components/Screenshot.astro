@@ -1,0 +1,22 @@
+---
+import { fallback, shot, size, srcset } from '../lib/shots';
+
+interface Props { id: string; alt: string; sizes?: string; eager?: boolean; class?: string }
+const { id, alt, sizes = '(min-width: 1280px) 1100px, 100vw', eager = false, class: className } = Astro.props;
+const s = shot(id);
+const { width, height } = size(s);
+---
+<picture>
+  <source type="image/avif" srcset={srcset(s, 'avif')} sizes={sizes} />
+  <source type="image/webp" srcset={srcset(s, 'webp')} sizes={sizes} />
+  <img
+    src={fallback(s)}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+    decoding="async"
+    class:list={['block h-auto w-full', className]}
+  />
+</picture>

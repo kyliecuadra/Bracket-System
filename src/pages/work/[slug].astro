@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../sections/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import WorkGrid from '../../sections/WorkGrid.astro';
+import CTA from '../../sections/CTA.astro';
+import { projects, type Project } from '../../data/work';
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+}
+const { project: p } = Astro.props as { project: Project };
+const others = projects.filter((x) => x.slug !== p.slug);
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: p.title,
+  description: p.summary,
+  creator: { '@type': 'Organization', name: 'Bracket Systems' },
+  keywords: p.stack.join(', '),
+}];
+---
+<BaseLayout title={p.title} description={p.summary} jsonLd={jsonLd} type="article">
+  <PageHero tag={p.tag} title={p.title} lead={p.summary} crumbs={[{ href: '/', label: 'Home' }, { href: '/work', label: 'Work' }]}>
+    {p.client && <p class="mt-6 font-mono text-sm text-signal">Client: {p.client}</p>}
+  </PageHero>
+
+  <section class="py-20 sm:py-24">
+    <div class="container-page grid gap-12 lg:grid-cols-[1.5fr_1fr]">
+      <div class="space-y-12">
+        <div data-reveal>
+          <h2 class="tag">[ THE PROBLEM ]</h2>
+          <p class="mt-3 text-2xl leading-snug font-medium text-ink">{p.problem}</p>
+        </div>
+        <div data-reveal>
+          <h2 class="tag">[ WHAT WE BUILT ]</h2>
+          <ul class="mt-4 space-y-3">
+            {p.solution.map((s) => <li class="flex gap-3 text-lg text-ink-3"><Icon name="check" size={22} class="mt-0.5 shrink-0 text-accent" />{s}</li>)}
+          </ul>
+        </div>
+      </div>
+      <aside class="h-fit rounded-3xl bg-panel p-6 ring-1 ring-line">
+        <h2 class="font-mono text-xs tracking-wider text-muted uppercase">Type</h2>
+        <p class="mt-1 font-medium">{p.kind}</p>
+        {p.client && (<><h2 class="mt-5 font-mono text-xs tracking-wider text-muted uppercase">Client</h2><p class="mt-1 font-medium">{p.client}</p></>)}
+        <h2 class="mt-5 font-mono text-xs tracking-wider text-muted uppercase">Technology</h2>
+        <ul class="mt-2 flex flex-wrap gap-1.5">
+          {p.stack.map((t) => <li class="rounded-full bg-tray px-2.5 py-1 font-mono text-[0.72rem] text-ink-3">{t}</li>)}
+        </ul>
+        <p class="mt-6 border-t border-line pt-5 text-sm text-muted">Screenshots and results for this project will be added with the client's permission.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="border-t border-line bg-tray py-20">
+    <div class="container-page">
+      <h2 class="text-2xl font-semibold">More work</h2>
+      <div class="mt-8"><WorkGrid limit={3} /></div>
+      <p class="mt-6 text-sm"><a href="/work" class="font-medium text-accent underline">All projects</a> ({others.length + 1})</p>
+    </div>
+  </section>
+  <CTA title="Have a similar problem?" lead="Tell us about it — we'll tell you honestly whether we're the right team." />
+</BaseLayout>

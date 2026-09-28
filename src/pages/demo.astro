@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../sections/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProductShowcase from '../components/ProductShowcase';
+import ContactForm from '../components/ContactForm';
+import Icon from '../components/Icon.astro';
+import { hrPayroll as p } from '../data/products/hr-payroll';
+import { site } from '../data/site';
+
+const expect = [
+  'A walkthrough of the running product with a fictional demo company — every role, from employee to payroll approver',
+  'Your questions: your payroll rules, your branches, your devices and your servers',
+  'Which edition fits, and a quote',
+];
+---
+<BaseLayout title="Product tour & demo" description="Tour the real HR & Payroll interface — dashboard, employee records, payroll, attendance, leave, self-service, reports and operations — and request a live demo.">
+  <PageHero tag="[ PRODUCT TOUR ]" title="See HR & Payroll for yourself." lead="Click through the real interface below — screenshots of the running application with a fictional company. Then book a live walkthrough with the team." />
+
+  <section class="bg-tray py-20 sm:py-24">
+    <div class="container-page">
+      <ProductShowcase client:load steps={p.tour} />
+      <p class="mt-10 flex items-start gap-2 text-sm text-muted"><Icon name="shield" size={18} class="mt-0.5 shrink-0 text-accent" />There's no public live instance: a payroll system shouldn't be on the open internet with shared credentials. Demos run on our own environment with fictional data.</p>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24" id="request">
+    <div class="container-page grid gap-12 lg:grid-cols-[1fr_1.4fr]">
+      <div>
+        <SectionHeader tag="[ REQUEST A DEMO ]" title="Book a live walkthrough." lead="Tell us a little about your company. The whole team gets your message, and one of us replies by email to schedule a time." />
+        <h3 class="mt-10 font-semibold">What to expect</h3>
+        <ul class="mt-4 space-y-3">
+          {expect.map((e) => <li class="flex gap-3 text-ink-3"><Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" />{e}</li>)}
+        </ul>
+      </div>
+      <div class="rounded-3xl bg-panel p-6 shadow-[var(--shadow-card)] ring-1 ring-line sm:p-8">
+        <ContactForm client:visible defaultType="HR & Payroll demo" emails={site.emails} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

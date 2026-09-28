@@ -1,0 +1,34 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../sections/PageHero.astro';
+import { legalUpdated } from '../data/legal';
+
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+const links = [
+  { href: '/legal/privacy', label: 'Privacy policy' },
+  { href: '/legal/cookies', label: 'Cookies & analytics' },
+  { href: '/legal/terms', label: 'Terms of use' },
+];
+const path = Astro.url.pathname.replace(/\/$/, '');
+---
+<BaseLayout title={title} description={description}>
+  <PageHero tag="[ LEGAL ]" title={title} lead={`Last updated ${legalUpdated}.`} />
+  <div class="container-page grid grid-cols-1 gap-10 py-16 lg:grid-cols-[14rem_1fr]">
+    <nav aria-label="Legal pages" class="min-w-0 lg:sticky lg:top-24 lg:h-fit">
+      <ul class="flex gap-2 overflow-x-auto lg:flex-col">
+        {links.map((l) => <li><a href={l.href} aria-current={path === l.href ? 'page' : undefined} class:list={['block rounded-lg px-3 py-2 text-sm whitespace-nowrap', path === l.href ? 'bg-panel font-medium ring-1 ring-line' : 'text-muted hover:text-ink']}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+    <article class="prose-legal min-w-0 max-w-3xl">
+      <div class="rounded-xl bg-amber/15 p-5 text-[0.95rem] text-ink ring-1 ring-amber/40" role="note">
+        <p class="font-semibold text-ink">Draft — pending legal review.</p>
+        <p class="mt-1 text-ink-3">Bracket Systems is not yet a registered business. Until it is, the people responsible for this website and for
+        the personal data it receives are its three developers, named below. This page will be updated with the registered
+        entity's details and reviewed by a lawyer before Bracket Systems starts trading as a company. It is written to be
+        accurate about what this website does; it is not legal advice and makes no claim of compliance on anyone's behalf.</p>
+      </div>
+      <slot />
+    </article>
+  </div>
+</BaseLayout>

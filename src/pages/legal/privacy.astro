@@ -1,0 +1,55 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { processors, responsible } from '../../data/legal';
+---
+<LegalLayout title="Privacy policy" description="What personal data the Bracket Systems website collects, why, who processes it, how long it's kept and how to exercise your rights.">
+  <h2>Who we are</h2>
+  <p>This website is run by the developers behind Bracket Systems:</p>
+  <ul>{responsible.map((r) => <li>{r.name} — <a href={`mailto:${r.email}`}>{r.email}</a></li>)}</ul>
+  <p>For any privacy question or request, email any of us. We act together as the people responsible for the personal
+  data this website receives.</p>
+
+  <h2>What we collect</h2>
+  <h3>When you contact us</h3>
+  <p>If you use the contact or demo form, we receive what you type: your name, email address, and optionally your company,
+  phone number, the topic and your message. The form sends it to our email inboxes; this website does not store it in a
+  database. If you email us directly, we receive your message and email address in the same way.</p>
+  <h3>When you browse</h3>
+  <p>We use Vercel Web Analytics to count page views. It uses no cookies and doesn't identify you: visits are grouped
+  using an anonymous value that changes every day, and we remove query strings from the pages it records. It collects the
+  page, the referring site, and general device, browser, operating system and country information. You can switch it off
+  on the <a href="/legal/cookies">cookies &amp; analytics</a> page, and it doesn't run if your browser sends Global Privacy
+  Control or Do Not Track.</p>
+  <p>Like any website host, Vercel processes technical data such as IP addresses to deliver pages and protect the
+  service. The contact form also uses your IP address, held briefly in memory, to limit how many messages can be sent.</p>
+  <h3>What we don't collect</h3>
+  <p>No advertising or tracking cookies, no social media pixels, no account sign-up. The product screenshots on this site
+  show a fictional company — no real employee or payroll data.</p>
+
+  <h2>Why we use it</h2>
+  <ul>
+    <li>To reply to you and discuss what you asked about (your request, and our legitimate interest in answering it).</li>
+    <li>To understand which pages are useful, in aggregate (our legitimate interest in improving the site).</li>
+    <li>To keep the site and the form safe from abuse (our legitimate interest in security).</li>
+  </ul>
+  <p>We don't sell personal data, and we don't use it for automated decisions about you.</p>
+
+  <h2>Who processes it for us</h2>
+  <ul>{processors.map((p) => <li><strong>{p.name}</strong> — {p.role} ({p.where})</li>)}</ul>
+  <p>Because these providers operate outside the Philippines, your data may be transferred abroad. We use them for
+  these purposes only.</p>
+
+  <h2>How long we keep it</h2>
+  <p>Messages stay in our email inboxes for as long as we're in conversation with you, and then for up to two years so we
+  can refer back to past discussions, unless you ask us to delete them sooner. Analytics are kept in aggregate by Vercel
+  according to its own retention.</p>
+
+  <h2>Your rights</h2>
+  <p>Under the Philippines' Data Privacy Act of 2012 you can ask to be informed about, access, correct, or erase your
+  personal data, object to its processing, and ask for a copy in a portable form. Email any of us above and we'll respond.
+  You can also complain to the National Privacy Commission (privacy.gov.ph).</p>
+
+  <h2>Changes</h2>
+  <p>When this policy changes we'll update the date at the top. Material changes, such as a new provider, will be
+  described here.</p>
+</LegalLayout>

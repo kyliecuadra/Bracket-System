@@ -1,0 +1,33 @@
+---
+import Icon from '../components/Icon.astro';
+import { services } from '../data/services';
+
+interface Props { detailed?: boolean }
+const { detailed = false } = Astro.props;
+---
+<ul class:list={['grid gap-5', detailed ? 'lg:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3']}>
+  {services.map((s, i) => (
+    <li id={detailed ? s.id : undefined} data-reveal class:list={['flex flex-col rounded-[var(--radius-card)] bg-panel p-6 shadow-[var(--shadow-card)] ring-1 ring-line', !detailed && i === 0 && 'lg:row-span-1']}>
+      <div class="flex items-center justify-between">
+        <span class="grid size-11 place-items-center rounded-xl bg-accent-soft text-accent"><Icon name={s.icon} size={22} /></span>
+        <span class="tag">{s.tag}</span>
+      </div>
+      <h3 class="mt-5 text-lg font-semibold text-ink">{s.title}</h3>
+      <p class="mt-2 text-[0.95rem] leading-relaxed text-muted">{s.body}</p>
+      {detailed && (
+        <>
+          <ul class="mt-5 space-y-2">
+            {s.offers.map((o) => <li class="flex gap-2.5 text-[0.95rem] text-ink-3"><Icon name="check" size={18} class="mt-0.5 shrink-0 text-accent" />{o}</li>)}
+          </ul>
+          <ul class="mt-5 flex flex-wrap gap-1.5" aria-label="Technology">
+            {s.stack.map((t) => <li class="rounded-full bg-tray px-2.5 py-1 font-mono text-[0.7rem] text-ink-3">{t}</li>)}
+          </ul>
+        </>
+      )}
+      <p class="mt-auto pt-5 text-sm text-muted">
+        <span class="font-mono text-[0.7rem] tracking-wider uppercase">Seen in: </span>
+        {s.proof.map((p, j) => <>{j > 0 && ' · '}<a href={p.href} class="font-medium text-ink underline decoration-line-strong hover:decoration-ink">{p.label}</a></>)}
+      </p>
+    </li>
+  ))}
+</ul>
