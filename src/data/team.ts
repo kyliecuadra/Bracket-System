@@ -41,8 +41,8 @@ export const team: Member[] = [
   {
     initials: 'JO',
     name: 'Jansen Oribello',
-    role: 'Java Developer — Sapiens IDIT · APIs · Enterprise Systems',
-    bio: 'Java developer specializing in the Sapiens IDIT platform, Spring Boot microservices, and RESTful API integration for core insurance and banking systems.',
+    role: 'Software Engineer — Java · Cloud · Sapiens IDIT · APIs · Enterprise Systems',
+    bio: 'Software engineer specializing in the Sapiens IDIT platform, Spring Boot microservices, and RESTful API integration for core insurance and banking systems.',
     email: 'oribellojansen.fuentes@gmail.com',
     resume: '/resumes/jansen-oribello.pdf',
     skills: ['Java', 'Spring Boot', 'Sapiens IDIT', 'Oracle PL/SQL', 'REST APIs'],
